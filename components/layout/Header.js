@@ -1,11 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { data: session, status } = useSession();
 
-  if (isLoggedIn) {
+  if (session) {
+    console.log(session.accessToken.token.user);
     return (
       <nav className="navbar navbar-light">
         <div className="container">
@@ -33,11 +36,11 @@ const Header = () => {
             <li className="nav-item">
               <Link className="nav-link" href="/profile/eric-simons">
                 <Image
-                  src=""
+                  src={session?.user?.image}
                   className="user-pic"
                   alt="profile picture"
-                  width={50}
-                  height={50}
+                  width={26}
+                  height={26}
                 />
                 Eric Simons
               </Link>
